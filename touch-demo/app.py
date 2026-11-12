@@ -11,6 +11,7 @@ from pathlib import Path
 
 from kivy.app import App
 from kivy.core.window import Window
+from kivy.effects.kinetic import KineticEffect
 from kivy.graphics import Color, Rectangle
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
@@ -21,9 +22,66 @@ BILDER = Path(__file__).parent / "bilder"
 FARBEN = [(0.9, 0.3, 0.3), (0.3, 0.7, 0.4), (0.3, 0.5, 0.9), (0.9, 0.7, 0.2)]
 
 
+class SchwungKarte(Scatter):
+    """Scatter mit Trägheit: rutscht nach dem Loslassen weiter (nur bei 1 Finger)."""
+
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self._multi = False
+        self.kx = KineticEffect(friction=0.05)
+        self.ky = KineticEffect(friction=0.05)
+        self.kx.bind(value=lambda e, v: self._rutsche(e, 0, v))
+        self.ky.bind(value=lambda e, v: self._rutsche(e, 1, v))
+
+    def _rutsche(self, effekt, achse, v):
+        if effekt.is_manual:          # während Drag bewegt Scatter selbst
+            return
+        grenze = Window.width if achse == 0 else Window.height
+        if not 0 <= v <= grenze:      # am Fensterrand anhalten
+            v = min(max(v, 0), grenze)
+            effekt.velocity = 0
+        c = list(self.center)
+        c[achse] = v
+        self.center = c
+
+    def _alle(self, methode):
+        for e, v in ((self.kx, self.center_x), (self.ky, self.center_y)):
+            getattr(e, methode)(v)
+
+    def on_touch_down(self, touch):
+        r = super().on_touch_down(touch)
+        if touch.grab_current is self or touch in self._touches:
+            if len(self._touches) == 1:
+                self._multi = False
+                self._alle("start")   # setzt velocity=0 -> stoppt Ausrollen
+                self.kx.value, self.ky.value = self.center
+            else:
+                self._multi = True
+        return r
+
+    def on_touch_move(self, touch):
+        r = super().on_touch_move(touch)
+        if touch.grab_current is self and self.kx.is_manual:
+            self._alle("update")
+        return r
+
+    def on_touch_up(self, touch):
+        letzter = touch in self._touches and len(self._touches) == 1
+        r = super().on_touch_up(touch)
+        if letzter and self.kx.is_manual:
+            if self._multi:           # nach Drehen/Zoomen kein Schwung
+                for e in (self.kx, self.ky):
+                    e.is_manual = False
+                    e.velocity = 0
+            else:
+                self.kx.value, self.ky.value = self.center
+                self._alle("stop")
+        return r
+
+
 def karte(inhalt, pos):
-    s = Scatter(size=(400, 300), pos=pos, do_rotation=True, do_scale=True,
-                scale_min=0.3, scale_max=4)
+    s = SchwungKarte(size=(400, 300), pos=pos, do_rotation=True, do_scale=True,
+                     scale_min=0.3, scale_max=4)
     inhalt.size = s.size
     s.add_widget(inhalt)
     return s
