@@ -79,8 +79,17 @@ class SchwungKarte(Scatter):
         return r
 
 
+def kartengroesse(inhalt, max_seite=400):
+    """Bilder behalten ihr Seitenverhältnis, längste Seite = max_seite."""
+    if isinstance(inhalt, Image) and inhalt.texture:
+        w, h = inhalt.texture_size
+        f = max_seite / max(w, h)
+        return w * f, h * f
+    return 400, 300
+
+
 def karte(inhalt, pos):
-    s = SchwungKarte(size=(400, 300), pos=pos, do_rotation=True, do_scale=True,
+    s = SchwungKarte(size=kartengroesse(inhalt), pos=pos, do_rotation=True, do_scale=True,
                      scale_min=0.3, scale_max=4)
     inhalt.size = s.size
     s.add_widget(inhalt)
