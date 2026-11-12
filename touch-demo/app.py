@@ -1,13 +1,10 @@
-# /// script
-# requires-python = ">=3.11,<3.14"
-# dependencies = ["kivy>=2.3"]
-# ///
-"""Minimalbeispiel Touch-Tisch mit Kivy.
+"""Touch-Tisch mit Kivy.
 
 Jede Karte ist ein Scatter: verschieben, drehen, skalieren per Multitouch.
 Bilder aus ./bilder werden geladen, sonst farbige Platzhalter.
 
-Start:  uv run app.py
+Setup:  poetry install
+Start:  poetry run python touch-demo/app.py
 Am Mac: Rechtsklick setzt einen zweiten "Finger" (roter Punkt) zum Drehen/Zoomen.
 """
 from pathlib import Path
