@@ -76,6 +76,29 @@ Ein Repo mit niri-Konfiguration oder Dotfiles wurde nicht gefunden.
 
 **Rechner:** Mini-PC mit Intel N100/N150 reicht für Web-Apps. Für 3D lieber Ryzen mit stärkerer iGPU.
 
+### Gewählter Touchrahmen: LMENGER LM-40IN
+
+Quelle: [Amazon B0FDG54QFM](https://www.amazon.de/dp/B0FDG54QFM) (Stand 12.11.2026)
+
+| Merkmal | Wert |
+|---|---|
+| Größe | 40", 16:9 (auch 32/50/55/65" erhältlich) |
+| Preis | 160,99 € (32": 150,99 €, 55": 200,99 €, 65": 210,99 €) |
+| Touchpunkte | 20 gleichzeitig |
+| Anschluss | USB, 5 V über USB, „treiberfrei“ |
+| Reaktionszeit | 20 ms |
+| Abmessungen | ca. 107 × 7,2 × 5 cm (laut Datenblatt, Angabe unklar) |
+| Bauform | Alurahmen, wird außen auf den Bildschirm geklebt; ohne Glas, ohne Display |
+| Montage | Steckverbinder A-A … D-D, Montagehilfen + Schraubendreher dabei |
+| Bewertung | 4,6/5 (11 Bewertungen) |
+
+**Risiken**
+
+- **Linux-Multitouch unklar.** Die Angaben widersprechen sich: Aufzählung nennt „Linux ab Kernel 3.5“, die Produktinfo sagt „Linux/Ubuntu: Single-Touch; Multitouch erfordert kundenspezifische Entwicklung“. Viele dieser Rahmen melden sich trotzdem als HID-Multitouch. → Direkt nach Lieferung mit `libinput debug-events` prüfen (Abschnitt 1), innerhalb der Rückgabefrist.
+- **Aufliegend statt bündig.** Der Rahmen klebt auf dem Bildschirm, ist also nicht für den bündigen Einbau wie bei Grant Custer gedacht. Für den Tisch Rahmen in die Unterkonstruktion einlassen oder eigene Halterung bauen. Eine Rezension (55") berichtet, dass das Klebeband nicht hält.
+- **Größe passend zum Display.** Der Rahmen muss zur Bilddiagonale des Fernsehers passen (40"-TV oder, wie bei Grant Custer, größerer TV und Bild per niri auf die Rahmenfläche begrenzen).
+- Glas/Plexi als Schutzschicht muss innerhalb des Rahmens liegen, damit die IR-Strahlen knapp über der Fläche bleiben.
+
 ---
 
 ## 5. Software-Varianten
@@ -266,6 +289,7 @@ Wie bei Grant Custer: wenn Bild und Touch nur auf einen Teilbereich des Displays
 
 ## 9. Vorgehen
 
+- [ ] LMENGER-Rahmen: sofort nach Lieferung Linux-Multitouch testen (Rückgabefrist!)
 - [ ] Prowise-Board per USB anschließen und prüfen, ob es erkannt wird (Treiber `hid-multitouch`, siehe Abschnitt 1)
 - [ ] `libinput list-devices` / `libinput debug-events`: Wie viele Touchpunkte kommen gleichzeitig an?
 - [ ] Cage installieren, Minimalbeispiel (Kivy oder Chromium-Kiosk) unter Cage starten
