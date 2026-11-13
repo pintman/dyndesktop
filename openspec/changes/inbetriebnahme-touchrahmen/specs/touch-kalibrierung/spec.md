@@ -7,22 +7,37 @@ Bringt die Touch-Koordinaten des Rahmens interaktiv mit dem angezeigten Bild in 
 ## ADDED Requirements
 
 ### Requirement: Menü des Inbetriebnahme-Programms
-Das Inbetriebnahme-Programm SHALL beim Start ein per Touch bedienbares Menü mit den Punkten Kalibrieren, Touchtest und Beenden im Vollbild anzeigen. Jeder Modus SHALL eine per Touch erreichbare Möglichkeit bieten, ins Menü zurückzukehren.
+Das Inbetriebnahme-Programm SHALL beim Start ein per Touch und per Maus bedienbares Menü mit den Punkten Fläche, Kalibrieren, Touchtest und Beenden anzeigen, das die gesamte Fensterfläche nutzt. Kalibrier- und Testmodus SHALL eine per Touch erreichbare Möglichkeit bieten, ins Menü zurückzukehren.
 
 #### Scenario: Programmstart
 - **WHEN** das Programm ohne Argumente gestartet wird
-- **THEN** zeigt es das Menü mit den drei Punkten
+- **THEN** zeigt es das Menü mit den vier Punkten
 
 #### Scenario: Rückkehr ins Menü
 - **WHEN** im Kalibrier- oder Testmodus das Zurück-Element berührt wird
 - **THEN** erscheint wieder das Menü, ohne dass Kalibrierwerte gespeichert werden
 
+### Requirement: Fensterfläche an den Rahmen anpassen
+Der Modus Fläche SHALL die Kanten des App-Fensters sichtbar markieren und jede Kante per Tastatur einzeln verschieben lassen, bis das Fenster auf dem Beamerbild genau innerhalb des Rahmens liegt. Jede Änderung SHALL sofort sichtbar werden. Übernommene Werte SHALL dauerhaft in der niri-Konfiguration gespeichert werden. Bei Abbruch SHALL der Zustand vom Beginn des Modus wiederhergestellt werden.
+
+#### Scenario: Kante verschieben
+- **WHEN** eine Kante gewählt und per Pfeiltaste verschoben wird
+- **THEN** verschiebt sich die entsprechende Fensterkante auf dem Beamerbild, und die Markierung bleibt an der Fensterkante
+
+#### Scenario: Abbruch
+- **WHEN** der Modus nach Änderungen abgebrochen wird
+- **THEN** liegt das Fenster wieder dort, wo es beim Start des Modus lag
+
+#### Scenario: Hinweis auf Neukalibrierung
+- **WHEN** geänderte Werte übernommen wurden
+- **THEN** zeigt das Menü einen Hinweis, dass neu kalibriert werden sollte
+
 ### Requirement: Erfassung der Kalibrierpunkte
-Der Kalibriermodus SHALL nacheinander vier Zielkreuze nahe den Bildecken anzeigen und je Kreuz eine Berührung erfassen. Dabei SHALL er die Werte ohne bisherige Kalibrierkorrektur auswerten, damit eine falsche alte Kalibrierung das Ergebnis nicht verfälscht.
+Der Kalibriermodus SHALL nacheinander vier Zielkreuze nahe den Ecken des App-Fensters (der Rahmenfläche) anzeigen und je Kreuz eine Berührung erfassen. Dabei SHALL er die Werte ohne bisherige Kalibrierkorrektur auswerten, damit eine falsche alte Kalibrierung das Ergebnis nicht verfälscht.
 
 #### Scenario: Vier Punkte erfasst
 - **WHEN** die vier Kreuze nacheinander angetippt wurden
-- **THEN** berechnet das Programm die Korrektur und zeigt ein fünftes Kontrollkreuz in der Bildmitte
+- **THEN** berechnet das Programm die Korrektur und zeigt ein fünftes Kontrollkreuz in der Fenstermitte
 
 #### Scenario: Mehrfinger-Berührung beim Kalibrieren
 - **WHEN** während der Erfassung mehrere Finger gleichzeitig auf der Fläche liegen
@@ -42,6 +57,10 @@ Aus den vier Punkten SHALL das Programm ermitteln, ob die Touch-Achsen gegenübe
 #### Scenario: Rahmen größer als Bild
 - **WHEN** die Touch-Werte der Kreuze einen kleineren Bereich abdecken als die Bildpositionen
 - **THEN** ist der berechnete Skalierungsfaktor der betroffenen Achse größer als 1
+
+#### Scenario: Rahmen kleiner als Fenster
+- **WHEN** die Touch-Werte der Kreuze einen größeren Bereich abdecken als die Bildpositionen, weil das Fenster etwas über den Rahmen hinausragt
+- **THEN** ist der berechnete Skalierungsfaktor der betroffenen Achse kleiner als 1
 
 ### Requirement: Kontrolle und Übernahme
 Nach der Berechnung SHALL das Programm die Korrektur vorläufig anwenden, die Abweichung am Kontrollkreuz in Pixeln anzeigen und erst nach Bestätigung speichern. Liegt die Abweichung über einer Schwelle, SHALL es darauf hinweisen und eine Wiederholung anbieten.

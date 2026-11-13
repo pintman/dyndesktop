@@ -18,7 +18,7 @@ Das Einrichtungsskript SHALL beliebig oft hintereinander ausführbar sein. Ein e
 - **THEN** holt es die fehlenden Schritte nach, ohne bereits erledigte doppelt anzulegen
 
 ### Requirement: Abschlussbericht
-Das Skript SHALL am Ende für jeden Prüfpunkt (Pakete, Gruppe `input`, Python-Umgebung, Touch-Gerät, Kivy-Konfiguration, Autostart) den Zustand OK oder FEHLT ausgeben. Es SHALL mit einem Exit-Code ungleich 0 enden, wenn ein Pflicht-Prüfpunkt FEHLT.
+Das Skript SHALL am Ende für jeden Prüfpunkt (Pakete, Kompositor niri, Gruppe `input`, Python-Umgebung, Touch-Gerät, Kivy-Konfiguration, niri-Konfiguration, Autostart) den Zustand OK oder FEHLT ausgeben. Es SHALL mit einem Exit-Code ungleich 0 enden, wenn ein Pflicht-Prüfpunkt FEHLT.
 
 #### Scenario: Kein Touch-Gerät angeschlossen
 - **WHEN** das Skript läuft und kein Touch-Gerät angeschlossen ist
@@ -34,6 +34,32 @@ Das Skript SHALL die für Kompositor, Diagnose und Python-Umgebung nötigen Pake
 #### Scenario: Aufruf als root
 - **WHEN** das Skript direkt als root gestartet wird
 - **THEN** bricht es mit einer Meldung ab, dass es als normaler Benutzer zu starten ist
+
+### Requirement: Kompositor niri
+Das Skript SHALL den Kompositor niri in einer festgelegten Version bereitstellen: aus den Debian-Paketquellen, falls verfügbar, sonst durch Bauen aus dem Quelltext. Ist die festgelegte Version bereits installiert, SHALL es niri nicht erneut bauen.
+
+#### Scenario: Erster Lauf ohne niri
+- **WHEN** niri nicht installiert ist
+- **THEN** installiert das Skript niri in der festgelegten Version, und `niri --version` meldet diese Version
+
+#### Scenario: niri bereits vorhanden
+- **WHEN** niri in der festgelegten Version bereits installiert ist
+- **THEN** meldet das Skript den Prüfpunkt Kompositor als OK, ohne niri neu zu bauen
+
+### Requirement: niri-Konfiguration
+Das Skript SHALL eine niri-Konfiguration schreiben, in der Apps ohne Abstände, Rahmen und Fensterdekoration maximiert geöffnet werden, der Hintergrund schwarz ist und niri selbst keine Touch-Eingaben verarbeitet. Die Fensterfläche (Rahmenfläche) SHALL über Randabstände festgelegt sein. Bereits eingestellte Randabstände SHALL das Skript bei einem erneuten Lauf unverändert lassen und vor jedem Schreiben eine Sicherungskopie anlegen.
+
+#### Scenario: Erster Lauf
+- **WHEN** noch keine niri-Konfiguration existiert
+- **THEN** schreibt das Skript sie mit Randabständen 0, sodass die App den ganzen Ausgang füllt
+
+#### Scenario: Rahmenfläche bleibt erhalten
+- **WHEN** die Randabstände eingestellt sind und das Skript erneut läuft
+- **THEN** sind die Randabstände nach dem Lauf unverändert
+
+#### Scenario: Touch nur in der App
+- **WHEN** ein Finger den Rahmen berührt, während die App läuft
+- **THEN** löst niri keine eigene Aktion aus, und die App erhält den Touch über ihren eigenen Eingabeweg
 
 ### Requirement: Python-Umgebung
 Das Skript SHALL im Projektverzeichnis eine eigene Python-Umgebung mit den Abhängigkeiten aus `pyproject.toml` anlegen bzw. aktualisieren, aus der das Inbetriebnahme-Programm und die Tisch-App (`python -m tisch`) gestartet werden können.
@@ -73,7 +99,7 @@ Das Skript SHALL in der Kivy-Konfiguration des Benutzers den ermittelten Eingabe
 - **THEN** kommt in Kivy genau ein Touch-Ereignis an, kein zusätzliches Mausereignis
 
 ### Requirement: Kiosk-Autostart per Schalter
-Mit dem Schalter `--kiosk` SHALL das Skript einen Autostart einrichten und aktivieren: Nach dem Booten startet ohne Anmeldung der Kiosk-Kompositor mit der Tisch-App (`python -m tisch`) im Vollbild. Stürzt die App ab, wird sie neu gestartet. Ohne den Schalter SHALL kein Autostart aktiv sein.
+Mit dem Schalter `--kiosk` SHALL das Skript einen Autostart einrichten und aktivieren: Nach dem Booten startet ohne Anmeldung niri mit der Tisch-App (`python -m tisch`) maximiert in der Rahmenfläche. Stürzt die App ab, wird sie neu gestartet. Ohne den Schalter SHALL kein Autostart aktiv sein.
 
 #### Scenario: Ohne Schalter
 - **WHEN** das Skript ohne `--kiosk` läuft
@@ -81,7 +107,7 @@ Mit dem Schalter `--kiosk` SHALL das Skript einen Autostart einrichten und aktiv
 
 #### Scenario: Mit Schalter
 - **WHEN** das Skript mit `--kiosk` gelaufen ist und der Rechner neu startet
-- **THEN** erscheint die Tisch-App (`python -m tisch`) im Vollbild auf dem Tisch-Bildschirm
+- **THEN** erscheint die Tisch-App (`python -m tisch`) auf dem Beamerbild genau in der Rahmenfläche, der übrige Teil des Bildes ist schwarz
 
 #### Scenario: Absturz der App
 - **WHEN** die App im Kiosk-Betrieb abstürzt
@@ -92,8 +118,8 @@ Mit dem Schalter `--kiosk` SHALL das Skript einen Autostart einrichten und aktiv
 - **THEN** ist ein Wechsel auf eine Textkonsole möglich
 
 ### Requirement: Laptop mit eingebautem Bildschirm
-Auf einem Rechner mit mehreren Bildschirmen SHALL die gestartete App auf dem externen Tisch-Bildschirm erscheinen, und die Touch-Koordinaten SHALL sich auf dieses App-Fenster beziehen.
+Auf einem Rechner mit eingebautem Bildschirm SHALL die niri-Konfiguration den eingebauten Bildschirm abschalten, sodass die gestartete App auf dem externen Ausgang (Beamer) erscheint. Die Touch-Koordinaten SHALL sich auf das App-Fenster beziehen.
 
-#### Scenario: Laptop mit HDMI-Fernseher
-- **WHEN** ein Laptop mit angeschlossenem HDMI-Fernseher die App startet
-- **THEN** läuft die App im Vollbild auf dem Fernseher, und ein Touch auf dem Rahmen trifft die entsprechende Stelle im App-Fenster
+#### Scenario: Laptop mit Beamer
+- **WHEN** ein Laptop mit angeschlossenem Beamer die App startet
+- **THEN** bleibt der eingebaute Bildschirm aus, die App läuft in der Rahmenfläche des Beamerbilds, und ein Touch auf dem Rahmen trifft die entsprechende Stelle im App-Fenster
