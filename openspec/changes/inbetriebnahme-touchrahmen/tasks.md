@@ -39,14 +39,14 @@
 
 - [ ] 7.1 Grundgerüst: Abbruch bei root, Projektverzeichnis aus Skriptpfad, Prüfpunkt-Sammlung und Abschlussbericht OK/FEHLT mit Exit-Code; prüfen: `shellcheck setup.sh` ohne Befund, Aufruf mit `sudo` bricht ab
 - [ ] 7.2 apt-Pakete (cage, wlr-randr, xwayland, evtest, libinput-tools, python3-venv) nur bei Bedarf installieren, Benutzer zur Gruppe `input` mit Hinweis auf Neuanmeldung; prüfen: zweiter Lauf installiert nichts und meldet OK
-- [ ] 7.3 `.venv` anlegen/aktualisieren und Kivy installieren; prüfen: `.venv/bin/python -c "import kivy"` gelingt
+- [ ] 7.3 `.venv` anlegen/aktualisieren und die Abhängigkeiten aus `pyproject.toml` (`[project].dependencies`, per `tomllib`) installieren; prüfen: `.venv/bin/python -c "import kivy, ffpyplayer"` gelingt
 - [ ] 7.4 Gerät über `python3 -m inbetrieb.geraet` erkennen, Single-Touch-Warnung, Konfiguration über `python3 -m inbetrieb.kivyconfig` schreiben; prüfen: ohne Gerät FEHLT + Exit ≠ 0; mit Gerät enthält `config.ini` den by-id-Pfad
-- [ ] 7.5 systemd-Unit `dyndesktop-kiosk.service` (cage `-s -m last`, `KCFG_GRAPHICS_FULLSCREEN=auto`, `Restart=always`, `RestartSec=2`, Conflicts getty@tty1) ablegen; mit `--kiosk` aktivieren, ohne deaktivieren; prüfen: `systemctl is-enabled dyndesktop-kiosk` liefert jeweils enabled bzw. disabled
+- [ ] 7.5 systemd-Unit `dyndesktop-kiosk.service` (`WorkingDirectory=<projekt>`, `ExecStart` cage `-s -m last -- .venv/bin/python -m tisch`, `KCFG_GRAPHICS_FULLSCREEN=auto`, `Restart=always`, `RestartSec=2`, Conflicts getty@tty1) ablegen; mit `--kiosk` aktivieren, ohne deaktivieren; prüfen: `systemctl is-enabled dyndesktop-kiosk` liefert jeweils enabled bzw. disabled
 - [ ] 7.6 README-Abschnitt „Inbetriebnahme“ (Debian netinst, `git clone`, `./setup.sh`, Testmodus `cage -s -- .venv/bin/python -m inbetrieb`, `--kiosk`, Rückweg); prüfen: die Befehle im README entsprechen den tatsächlichen Pfaden und Schaltern
 
 ## 8. Abnahme am Gerät
 
 - [ ] 8.1 Laptop mit Debian 13 Live/Installation: `setup.sh` zweimal ausführen; prüfen: zweiter Lauf komplett OK, Exit 0
 - [ ] 8.2 LMENGER-Rahmen anschließen, Touchtest: Maximum gleichzeitiger Touches, Heatmap, Ruhephase 60 s; prüfen: Bericht-JSON liegt vor und ist per SSH abholbar (Entscheidung zur Rückgabe treffen)
-- [ ] 8.3 Kalibrieren und anschließend Zielpunkte im Touchtest; prüfen: größte Abweichung unter 2 % der Diagonale, `touch-demo/app.py` folgt dem Finger
-- [ ] 8.4 NUC: `setup.sh --kiosk`, Neustart; prüfen: `touch-demo/app.py` erscheint im Vollbild, nach `pkill -f touch-demo/app.py` startet sie neu, Strg+Alt+F2 erreicht die Textkonsole
+- [ ] 8.3 Kalibrieren und anschließend Zielpunkte im Touchtest; prüfen: größte Abweichung unter 2 % der Diagonale, die Tisch-App (`python -m tisch`) folgt dem Finger
+- [ ] 8.4 NUC: `setup.sh --kiosk`, Neustart; prüfen: `python -m tisch` erscheint im Vollbild, nach `pkill -f 'python -m tisch'` startet sie neu, Strg+Alt+F2 erreicht die Textkonsole

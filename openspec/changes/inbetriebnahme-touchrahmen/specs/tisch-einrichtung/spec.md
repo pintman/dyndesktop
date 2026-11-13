@@ -36,11 +36,15 @@ Das Skript SHALL die für Kompositor, Diagnose und Python-Umgebung nötigen Pake
 - **THEN** bricht es mit einer Meldung ab, dass es als normaler Benutzer zu starten ist
 
 ### Requirement: Python-Umgebung
-Das Skript SHALL im Projektverzeichnis eine eigene Python-Umgebung mit Kivy anlegen bzw. aktualisieren, aus der das Inbetriebnahme-Programm und `touch-demo/app.py` gestartet werden können.
+Das Skript SHALL im Projektverzeichnis eine eigene Python-Umgebung mit den Abhängigkeiten aus `pyproject.toml` anlegen bzw. aktualisieren, aus der das Inbetriebnahme-Programm und die Tisch-App (`python -m tisch`) gestartet werden können.
 
 #### Scenario: Kivy verfügbar
 - **WHEN** das Skript erfolgreich gelaufen ist
 - **THEN** lässt sich Kivy mit dem Python-Interpreter der Umgebung importieren
+
+#### Scenario: Videowiedergabe verfügbar
+- **WHEN** das Skript erfolgreich gelaufen ist
+- **THEN** lässt sich `ffpyplayer` mit dem Python-Interpreter der Umgebung importieren
 
 ### Requirement: Erkennung des Touch-Geräts
 Das Skript SHALL das angeschlossene Multitouch-Gerät über einen stabilen Pfad unter `/dev/input/by-id/` ermitteln und feststellen, ob es das Multitouch-Protokoll Typ A oder Typ B verwendet. Meldet das Gerät keine Multitouch-Achsen, SHALL das Skript ausdrücklich warnen, dass nur Single-Touch möglich ist.
@@ -69,7 +73,7 @@ Das Skript SHALL in der Kivy-Konfiguration des Benutzers den ermittelten Eingabe
 - **THEN** kommt in Kivy genau ein Touch-Ereignis an, kein zusätzliches Mausereignis
 
 ### Requirement: Kiosk-Autostart per Schalter
-Mit dem Schalter `--kiosk` SHALL das Skript einen Autostart einrichten und aktivieren: Nach dem Booten startet ohne Anmeldung der Kiosk-Kompositor mit `touch-demo/app.py` im Vollbild. Stürzt die App ab, wird sie neu gestartet. Ohne den Schalter SHALL kein Autostart aktiv sein.
+Mit dem Schalter `--kiosk` SHALL das Skript einen Autostart einrichten und aktivieren: Nach dem Booten startet ohne Anmeldung der Kiosk-Kompositor mit der Tisch-App (`python -m tisch`) im Vollbild. Stürzt die App ab, wird sie neu gestartet. Ohne den Schalter SHALL kein Autostart aktiv sein.
 
 #### Scenario: Ohne Schalter
 - **WHEN** das Skript ohne `--kiosk` läuft
@@ -77,7 +81,7 @@ Mit dem Schalter `--kiosk` SHALL das Skript einen Autostart einrichten und aktiv
 
 #### Scenario: Mit Schalter
 - **WHEN** das Skript mit `--kiosk` gelaufen ist und der Rechner neu startet
-- **THEN** erscheint `touch-demo/app.py` im Vollbild auf dem Tisch-Bildschirm
+- **THEN** erscheint die Tisch-App (`python -m tisch`) im Vollbild auf dem Tisch-Bildschirm
 
 #### Scenario: Absturz der App
 - **WHEN** die App im Kiosk-Betrieb abstürzt

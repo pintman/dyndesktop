@@ -62,7 +62,7 @@ Beim Speichern SHALL das Programm Ausrichtung und Korrektur in die Kivy-Konfigur
 - **THEN** existiert danach eine Sicherungskopie mit dem vorherigen Inhalt der Konfiguration
 
 #### Scenario: Wirkung auf die Tisch-App
-- **WHEN** nach dem Speichern `touch-demo/app.py` gestartet wird
+- **WHEN** nach dem Speichern die Tisch-App (`python -m tisch`) gestartet wird
 - **THEN** liegt eine Karte unter dem Finger, der sie berührt
 
 ### Requirement: Neustart in den Touchtest

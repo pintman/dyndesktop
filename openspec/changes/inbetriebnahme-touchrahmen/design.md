@@ -74,16 +74,16 @@ Die Reihenfolge der Kivy-Transformationen (Normierung → invert → rotation �
 - Bericht: `~/.local/state/dyndesktop/touchtest-YYYYmmdd-HHMMSS.json`, Pfad wird angezeigt.
 
 ### D8: Kiosk über systemd-System-Unit
-`/etc/systemd/system/dyndesktop-kiosk.service` mit `User=<benutzer>`, `PAMName=login`, `TTYPath=/dev/tty1`, `ExecStart=/usr/bin/cage -s -m last -- <venv>/bin/python touch-demo/app.py`, `Restart=always`, `Conflicts=getty@tty1.service`. So empfiehlt es auch die cage-Doku.
+`/etc/systemd/system/dyndesktop-kiosk.service` mit `User=<benutzer>`, `PAMName=login`, `TTYPath=/dev/tty1`, `WorkingDirectory=<projekt>`, `ExecStart=/usr/bin/cage -s -m last -- <projekt>/.venv/bin/python -m tisch`, `Restart=always`, `Conflicts=getty@tty1.service`. So empfiehlt es auch die cage-Doku.
 - Ohne `--kiosk`: Die Unit wird bei Bedarf abgelegt, aber deaktiviert (`systemctl disable`).
 - *Alternative:* greetd oder Getty-Autologin + `.bash_profile`. Verworfen: mehr bewegliche Teile.
-- Vollbild für `touch-demo/app.py` über Kivys Env-Override `Environment=KCFG_GRAPHICS_FULLSCREEN=auto` in der Unit. So bleibt `app.py` unverändert und läuft am Mac weiter im Fenster.
+- Vollbild für die Tisch-App (`python -m tisch`, Change `prototyp-kartentisch`) über Kivys Env-Override `Environment=KCFG_GRAPHICS_FULLSCREEN=auto` in der Unit. So bleibt die App unverändert und läuft am Mac weiter im Fenster.
 
 ### D9: Laptop
 `cage -m last` zeigt die App auf dem zuletzt erkannten Ausgang (dem HDMI-Fernseher). `inbetrieb` setzt immer `Window.fullscreen = "auto"`. Weil hidinput sich auf das Fenster bezieht, braucht es keine weitere Zuordnung.
 
 ### D10: Python-Umgebung
-`setup.sh` legt `.venv` im Projektverzeichnis an (`python3 -m venv`, `pip install kivy`) – ohne Poetry auf dem Tisch. Die Version kommt aus `pyproject.toml` (`kivy>=2.3`). Poetry bleibt für die Entwicklung, pytest kommt als Dev-Gruppe dazu.
+`setup.sh` legt `.venv` im Projektverzeichnis an (`python3 -m venv`) – ohne Poetry auf dem Tisch. Die Abhängigkeiten liest es mit `tomllib` (System-Python 3.13) aus `[project].dependencies` in `pyproject.toml` und installiert sie per `.venv/bin/pip install` (derzeit `kivy>=2.3`, `ffpyplayer`). `pip install .` scheidet aus, weil `package-mode = false` gesetzt ist. Poetry bleibt für die Entwicklung, pytest ist bereits Dev-Gruppe.
 
 ## Risks / Trade-offs
 
