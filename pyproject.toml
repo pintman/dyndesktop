@@ -3,7 +3,7 @@ name = "touch-demo"
 version = "0.1.0"
 description = "Touch-Tisch mit Kivy"
 requires-python = ">=3.11,<3.14"
-dependencies = ["kivy>=2.3"]
+dependencies = ["kivy>=2.3", "ffpyplayer (>=4.5.4,<5.0.0)"]
 
 [tool.poetry]
 package-mode = false
@@ -11,3 +11,11 @@ package-mode = false
 [build-system]
 requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.2.0,<10.0.0)"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

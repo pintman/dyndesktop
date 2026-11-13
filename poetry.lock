@@ -195,6 +195,19 @@ files = [
 ]
 
 [[package]]
+name = "colorama"
+version = "0.4.6"
+description = "Cross-platform colored terminal text."
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
+groups = ["dev"]
+markers = "sys_platform == \"win32\""
+files = [
+    {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
+    {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
+]
+
+[[package]]
 name = "docutils"
 version = "0.23"
 description = "Docutils -- Python Documentation Utilities"
@@ -204,6 +217,53 @@ groups = ["main"]
 files = [
     {file = "docutils-0.23-py3-none-any.whl", hash = "sha256:25d013af9bf23bc1c7b2b093dff4208166c53a94786c9e447808335ef1185fea"},
     {file = "docutils-0.23.tar.gz", hash = "sha256:746f5060322511280a1e50eb76846ed6bf2342984b2ac04dc42caa1a8d78799e"},
+]
+
+[[package]]
+name = "ffpyplayer"
+version = "4.5.4"
+description = "A cython implementation of an ffmpeg based player."
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "ffpyplayer-4.5.4-cp310-cp310-macosx_10_13_universal2.whl", hash = "sha256:07348719a7de8086734af58272eb8d0658838072643d1cd4ee5cdace7cd55822"},
+    {file = "ffpyplayer-4.5.4-cp310-cp310-macosx_10_13_x86_64.whl", hash = "sha256:c093f09426eef67b5ec064c803ebe2a6ba5ccd9d6984efb97825435ba606616b"},
+    {file = "ffpyplayer-4.5.4-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:878c5f741161d3c3ed483b885503471f3cc7303b9af7760eb464b78f8009609a"},
+    {file = "ffpyplayer-4.5.4-cp310-cp310-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:79a2dfd66c837ce30d4e3d9e79ccb6bf732f90e1b18b66dee28187e47921c4fb"},
+    {file = "ffpyplayer-4.5.4-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:ee1033e11b9988ae825fb7ddd503ff58c121e1f4e5d400e2cca1a7931822bd10"},
+    {file = "ffpyplayer-4.5.4-cp310-cp310-win_amd64.whl", hash = "sha256:90e920d540cc27b95b78be73485c33ac5c14ada72c185cf3fbf7f0927ee0b789"},
+    {file = "ffpyplayer-4.5.4-cp311-cp311-macosx_10_13_universal2.whl", hash = "sha256:2a1f0465a2165617dcae4b93a0760edbc50a80fd973e285a8f77b62b68cf1993"},
+    {file = "ffpyplayer-4.5.4-cp311-cp311-macosx_10_13_x86_64.whl", hash = "sha256:89845a7e80ea2bb6857a31df29fb24e8eeec03cea41bafd2f04ec8bd90a335a2"},
+    {file = "ffpyplayer-4.5.4-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:90e05efd53b82d06a7fcf303d1ef3d5ce682415011f1dcf30f531396e4168f2d"},
+    {file = "ffpyplayer-4.5.4-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:958905bd939ca14ae6e2609fdc39e616e0b3c7569a3bd7a9836a95ddb09525ea"},
+    {file = "ffpyplayer-4.5.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:ab0088f1dc31c720dd8b14ff67f943c6c4950dab93fa3e903807193fee12a004"},
+    {file = "ffpyplayer-4.5.4-cp311-cp311-win_amd64.whl", hash = "sha256:96e9e9202e23a9325aa9e232045f9226b90d147725d719755b2db7159731a563"},
+    {file = "ffpyplayer-4.5.4-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:c40bf3c3da72a3dd94a90e4d5c402757e8cf53882ae2ebc5f945d0fad2953e9c"},
+    {file = "ffpyplayer-4.5.4-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:78b17f0d5abc3bf4e90d136a112239b55ffd832058db0e192a8c91ee9f07b0d3"},
+    {file = "ffpyplayer-4.5.4-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:68e2f440adfd33c249765f2e2d56189c62f8de6d88818c747f7324b4ac0d9201"},
+    {file = "ffpyplayer-4.5.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:34a3b1507eb2734ee933e8ee9476be495b6511313618bfa637dd020942093fa5"},
+    {file = "ffpyplayer-4.5.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:ed2570e1794dacad48a1e245748e4375ee405765abfe985bb18613c9ccdba00b"},
+    {file = "ffpyplayer-4.5.4-cp312-cp312-win_amd64.whl", hash = "sha256:95de84c0e5b3941361455e8307e1565ff7de6b49c0d2613fc9d219996477c4c3"},
+    {file = "ffpyplayer-4.5.4-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:ef82430b5e025dd41bb2ff70609e11cc0ca0babd3e7bfbbc3a8c9e91cffe6dab"},
+    {file = "ffpyplayer-4.5.4-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:76d9e16d4eca54cbf4fb12dee6a1016bb15b236ddc764eefc7935719bb9d1ab1"},
+    {file = "ffpyplayer-4.5.4-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:8c4d3219bbf7235afa56da0bea3f092e5430388e1403dc7f5d4efc147875af47"},
+    {file = "ffpyplayer-4.5.4-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:fd2460a7819accbc5b5348f2162bb3c4b1cfe5113ee256361777f6f42dd9a352"},
+    {file = "ffpyplayer-4.5.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:d5cbe35d989e04b17211acba23f09e11a84bddafcdddc5d54fcab5aa9df21d7e"},
+    {file = "ffpyplayer-4.5.4-cp313-cp313-win_amd64.whl", hash = "sha256:1b2f461e218e76c194ec9e202b10538c487862b0b9b1b7deda724812595be615"},
+    {file = "ffpyplayer-4.5.4-cp314-cp314-macosx_10_15_universal2.whl", hash = "sha256:580f65e33d8537952df4d836d637b0cdc96e1b71cd32dcde46e52724f3ff350d"},
+    {file = "ffpyplayer-4.5.4-cp314-cp314-macosx_10_15_x86_64.whl", hash = "sha256:c7eedcc801c0feb79657f35c09e221533c61b277ec816b9e3d11033f6d52e9fb"},
+    {file = "ffpyplayer-4.5.4-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:e1aa52f384db05bbe98176118302cc41d0d19e6380d9a13cbef0e0440b0d3f39"},
+    {file = "ffpyplayer-4.5.4-cp314-cp314-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:1663245f14d91bae42f1c09c132f95c7a2ba1bddda6159df87735dbc651ec645"},
+    {file = "ffpyplayer-4.5.4-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:384270daded5671dfc2f03b07ecc07e289c91e7f61868f5b75d4de864a3f582c"},
+    {file = "ffpyplayer-4.5.4-cp314-cp314-win_amd64.whl", hash = "sha256:0c1483bb496006b1c46d125eff1253ac3ebba01e6ffe6af52ae2dc14754cac9a"},
+    {file = "ffpyplayer-4.5.4-cp39-cp39-macosx_10_13_universal2.whl", hash = "sha256:12a430d242d2e5aa221922b42365127d273bfa25f24a521a0bbc620ed1784cba"},
+    {file = "ffpyplayer-4.5.4-cp39-cp39-macosx_10_13_x86_64.whl", hash = "sha256:b0cdd9ba33c371eef946799ac789804f7a4a3bdbb6dd5deba6dd6be64aeb5eb0"},
+    {file = "ffpyplayer-4.5.4-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:b73dfe62003f9b7fa40e7089e00b2f7dff6d66656198afebc2b7e60440ff93ee"},
+    {file = "ffpyplayer-4.5.4-cp39-cp39-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:c2271e938ae7adb283783c67c9a72b29ae4cddbb696e38191b1c92307525bd40"},
+    {file = "ffpyplayer-4.5.4-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:5eab0807a8bced7b9d72a78dfe0b7595a55490ce97a9aa5fc7f173301ea48a98"},
+    {file = "ffpyplayer-4.5.4-cp39-cp39-win_amd64.whl", hash = "sha256:dc8989ca7afa525a525d9a5215992f2c68535b934dac46663dbc746f3550fcdc"},
+    {file = "ffpyplayer-4.5.4.tar.gz", hash = "sha256:84488ac10e874e9ff0058b3104a9334b9446b407c42aa0d6b848d996b004e139"},
 ]
 
 [[package]]
@@ -232,6 +292,18 @@ files = [
 
 [package.extras]
 all = ["coverage (>=7.10.0)", "hypothesis (>=6.141.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.16.0)", "ty (>=0.0.37)"]
+
+[[package]]
+name = "iniconfig"
+version = "2.3.1"
+description = "brain-dead simple config-ini parsing"
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "iniconfig-2.3.1-py3-none-any.whl", hash = "sha256:9121e2c1fdb355232495be3194c8dfe87ccc2d5dee45947b78e68f499790d7a7"},
+    {file = "iniconfig-2.3.1.tar.gz", hash = "sha256:67f4b9c50da0dedf52af349e7749a80a9057a5031199791b906c3bb3ae878960"},
+]
 
 [[package]]
 name = "kivy"
@@ -368,12 +440,36 @@ files = [
 requests = "*"
 
 [[package]]
+name = "packaging"
+version = "26.3"
+description = "Core utilities for Python packages"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "packaging-26.3-py3-none-any.whl", hash = "sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"},
+    {file = "packaging-26.3.tar.gz", hash = "sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79"},
+]
+
+[[package]]
+name = "pluggy"
+version = "1.7.0"
+description = "plugin and hook calling mechanisms for python"
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "pluggy-1.7.0-py3-none-any.whl", hash = "sha256:7dd7b0d8832ba3cb632c306926ded123429211b83641b35dc5c41ad2d34f9bec"},
+    {file = "pluggy-1.7.0.tar.gz", hash = "sha256:d1eaa46ebb595891b860ab086b4d09c8588af65ebd4361b8e8f4bb8920b90ba8"},
+]
+
+[[package]]
 name = "pygments"
 version = "2.21.0"
 description = "Pygments is a syntax highlighting package written in Python."
 optional = false
 python-versions = ">=3.9"
-groups = ["main"]
+groups = ["main", "dev"]
 files = [
     {file = "pygments-2.21.0-py3-none-any.whl", hash = "sha256:2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9"},
     {file = "pygments-2.21.0.tar.gz", hash = "sha256:610ca751c9bc2492b38eb9a38a7fbc93edbbb2d7182edaf34e66ae493dee5c8c"},
@@ -397,6 +493,28 @@ files = [
 
 [package.dependencies]
 pywin32 = ">=223"
+
+[[package]]
+name = "pytest"
+version = "9.2.0"
+description = "pytest: simple powerful testing with Python"
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "pytest-9.2.0-py3-none-any.whl", hash = "sha256:07acdcf88ec174f907dc01af70bf52d49b014bbab03faeeade31c96b18c2e588"},
+    {file = "pytest-9.2.0.tar.gz", hash = "sha256:97c4f3b1f3c7414aa36465e09b8220f1d03627993bd51b1282e193753c80557b"},
+]
+
+[package.dependencies]
+colorama = {version = ">=0.4", markers = "sys_platform == \"win32\""}
+iniconfig = ">=2"
+packaging = ">=24"
+pluggy = ">=1.6,<2"
+pygments = ">=2.15"
+
+[package.extras]
+dev = ["argcomplete", "asynctest ; python_version < \"3.11\"", "attrs (>=23.1)", "coverage (>=7.5)", "hypothesis (>=6.75)", "mock", "numpy (>=1.26)", "pexpect (>=4.9)", "pytest-xdist (>=3.5)", "pyyaml", "requests", "setuptools", "xmlschema"]
 
 [[package]]
 name = "pywin32"
@@ -473,4 +591,4 @@ zstd = ["backports-zstd (>=1.0.0) ; python_version < \"3.14\""]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.14"
-content-hash = "570895fae509476a430e688eb82c1d3b56bbb89f1d0e11bd277dd77fe0176a54"
+content-hash = "849265cea2585151d7706f42b9c0357971a0e71f0f18579c818e65171728c12e"

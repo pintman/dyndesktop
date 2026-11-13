@@ -49,3 +49,74 @@ python -m kivy.tools.touchtracer   # oder: python app.py -m monitor
 ```
 
 Touch-Punkte vs. Fingerposition vergleichen und Werte iterativ anpassen.
+
+## Tisch-App (Prototyp)
+
+Karten mit Text, Bild und Video auf einer Touch-Fläche (Paket `tisch/`).
+`touch-demo/` bleibt als minimale Referenz unverändert.
+
+### Start
+
+```bash
+poetry install
+poetry run python -m tisch                       # Inhalte aus ./inhalte, im Fenster
+poetry run python -m tisch --inhalte ~/karten    # anderer Inhaltsordner
+KCFG_GRAPHICS_FULLSCREEN=auto poetry run python -m tisch   # Vollbild (Tisch)
+poetry run pytest                                # Tests der Logik
+```
+
+Am Mac: Rechtsklick setzt einen zweiten „Finger“ (roter Punkt) zum Drehen und Skalieren.
+
+### Kartentypen
+
+| Endung | Karte |
+|---|---|
+| `.txt` | Text (UTF-8, umbrochen) |
+| `.jpg`, `.jpeg`, `.png` | Bild im Seitenverhältnis |
+| `.mp4`, `.webm` | Video, stumm, Endlosschleife (`ffpyplayer`) |
+
+Je unterstützter Datei im Inhaltsordner entsteht eine Karte. Unterordner und andere
+Endungen werden ignoriert. Unlesbare Dateien erscheinen als graue Fehlerkarte.
+
+### Bearbeitung
+
+- Karte 0,8 s mit einem Finger ruhig halten → Bearbeitung öffnet, virtuelle Tastatur erscheint neben der Karte.
+- Textkarte: Text ändern, „Übernehmen“ schreibt die `.txt`-Datei.
+- Bild-/Videokarte: anderen Dateinamen aus dem Inhaltsordner eingeben. Dateien werden nicht umbenannt.
+- „Abbrechen“ oder ✕ auf der Tastatur verwirft. Es ist immer nur eine Bearbeitung offen.
+- Tastatur am Rand (oben breiter Griff) ziehen, mit zwei Fingern am Rand drehen und skalieren.
+- Eine physische Tastatur schreibt zusätzlich ins Eingabefeld.
+
+Schwellen für den Langdruck: `tisch/langdruck.py` (`DAUER`, `SCHWELLE`).
+Startgröße der Tastatur: `tisch/tastatur.py` (`STARTGROESSE`).
+
+### Neuen Kartentyp hinzufügen
+
+Eine Klasse von `Kartentyp` ableiten und einmal registrieren. Tischfläche, Gesten und
+Bearbeitung bleiben unverändert.
+
+```python
+# tisch/typen/markdown.py
+from pathlib import Path
+from kivy.uix.label import Label
+from .basis import Kartentyp
+
+class MarkdownTyp(Kartentyp):
+    name = "markdown"
+    endungen = (".md",)
+
+    def erzeuge_inhalt(self, pfad):          # Widget; Ausnahme → Fehlerkarte
+        return Label(text=Path(pfad).read_text(encoding="utf-8"))
+
+    # optional: groesse(inhalt), bearbeitungswert(pfad, inhalt),
+    #           uebernehme(karte, wert) → wirft BearbeitungsFehler("Hinweis")
+```
+
+In `tisch/typen/__init__.py` unten ergänzen:
+
+```python
+from .markdown import MarkdownTyp
+registriere(MarkdownTyp())
+```
+
+Eine bereits belegte Endung wird mit `ValueError` abgelehnt.
