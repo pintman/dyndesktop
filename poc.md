@@ -1,0 +1,12 @@
+- Ausgehend von touch-demo soll ein erster Prototyp entstehen. Er soll folgende Funktionalitäten umsetzen.
+- Auf dem Desktop lassen sich verschiedene Karten anzeigen.
+- Die Karten lassen sich mit Touch-Gesten verschieben, drehen und skalieren.
+- Es gibt ein Physik-Modell, dass die Karten beim verschieben weiterrutschen lässt.
+- Auf den Karten werden Texte, Bilder oder Videos angezeigt.
+- Erweiterungen für andere Kartentypen sollen möglich sein.
+- Durch Gesten lassen sich Karteninhalte bearbeiten - z.B. durch einen langen Touch. Es erscheint eine virtuelle Tastatur.
+  - Bei Textkarten kann der Inhalt der Textkarte geändert werden.
+  - Bei Bildkarten und Videokarten kann der Name der Bild- bzw. Videodatei geändert werden.
+- Die Tastatur lässt sich wie eine Karte verschieben, drehen und skalieren.
+- Prüfe, ob sich diese Anforderungen mit dem change inbetriebnahme vertragen.
+
