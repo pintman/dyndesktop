@@ -120,3 +120,84 @@ registriere(MarkdownTyp())
 ```
 
 Eine bereits belegte Endung wird mit `ValueError` abgelehnt.
+
+## Inbetriebnahme
+
+Vom frischen Debian 13 bis zum kalibrierten Tisch (NUC oder Laptop, Beamer + IR-Rahmen).
+Kompositor ist **niri**: Er begrenzt das App-Fenster per `struts` auf die Rahmenfläche,
+der Rest des Beamerbilds bleibt schwarz.
+
+### 1. System
+
+1. Debian 13 netinst installieren, nur „SSH-Server“ und „Standard-Systemwerkzeuge“ wählen
+   (kein Desktop). Benutzer mit `sudo`-Rechten anlegen.
+2. Projekt holen und einrichten (als normaler Benutzer, **nicht** mit `sudo`):
+
+   ```bash
+   sudo apt install git
+   git clone https://github.com/pintman/dyndesktop.git ~/proj/dyndesktop
+   cd ~/proj/dyndesktop
+   ./setup.sh
+   ```
+
+`setup.sh` lässt sich beliebig oft ausführen und meldet am Ende je Prüfpunkt OK/FEHLT
+(Exit ≠ 0, wenn etwas fehlt). Es installiert Pakete, fügt den Benutzer zur Gruppe `input`
+hinzu (danach neu anmelden), baut niri 26.04 nach `/usr/local/bin/niri` (nur beim ersten
+Lauf, dauert), legt `.venv` an, erkennt den Rahmen über `/dev/input/by-id/` und schreibt
+`~/.kivy/config.ini` sowie `~/.config/niri/config.kdl`. Ohne angeschlossenen Rahmen
+meldet „Touch-Gerät“ FEHLT – Rahmen anstecken und erneut starten.
+
+Hilfsbefehle (System-Python, auch ohne `.venv`):
+
+```bash
+python3 -m inbetrieb.geraet          # erkanntes Touch-Gerät, Typ A/B, Provider
+python3 -m inbetrieb.kivyconfig zeigen
+python3 -m inbetrieb.niriconfig struts
+```
+
+### 2. Testmodus (ohne Autostart)
+
+Auf **tty1** (Tastatur am Rechner, nicht per SSH) anmelden und starten:
+
+```bash
+cd ~/proj/dyndesktop
+DYNDESKTOP_START=inbetrieb niri
+```
+
+niri startet `kiosk.sh`, das einmalig `python -m inbetrieb` öffnet (Menü, maximiert in der
+Rahmenfläche). „Beenden“ schließt auch niri. Notausgang: `Super+Shift+E`.
+
+1. **Fläche**: Tab wählt die Kante, Pfeiltasten verschieben sie um 1 px (Umschalt: 10 px),
+   Enter übernimmt, Esc stellt den Startzustand wieder her. Ziel: Fensterkanten liegen
+   auf der Innenkante des Rahmens. Keystone vorher am Beamer einstellen.
+2. **Kalibrieren**: 4 Kreuze nacheinander antippen, dann das Kontrollkreuz. Speichern
+   schreibt `~/.kivy/config.ini` (Sicherung `config.ini.bak`) und öffnet den Touchtest.
+3. **Touchtest**: gleichzeitige Touches (Maximum), Spuren, Heatmap, Ruhephase
+   (Geistertouches), Ziele (Abweichung in px). Beim Verlassen entsteht ein Bericht
+   `~/.local/state/dyndesktop/touchtest-<zeitstempel>.json`, abholbar per
+   `scp <benutzer>@<rechner>:.local/state/dyndesktop/*.json .`
+
+Notweg Fläche per SSH: in `~/.config/niri/config.kdl` den Block
+`layout { struts { left …; right …; top …; bottom …; } }` ändern; niri lädt die Datei
+sofort neu. `setup.sh` übernimmt die struts bei jedem Lauf.
+
+Läuft Kivy nicht nativ unter Wayland, Fallback über Xwayland:
+`DYNDESKTOP_X11=1 DYNDESKTOP_START=inbetrieb niri` (benötigt `xwayland-satellite`).
+
+### 3. Kiosk
+
+```bash
+./setup.sh --kiosk && sudo reboot
+```
+
+Nach dem Booten startet `dyndesktop-kiosk.service` niri auf tty1, `kiosk.sh` startet
+`python -m tisch` und nach einem Absturz nach 2 s neu. Strg+Alt+F2 wechselt auf eine
+Textkonsole, SSH bleibt erreichbar. Logs: `journalctl -u dyndesktop-kiosk`.
+
+Rückweg:
+
+```bash
+./setup.sh                       # Autostart aus (oder: sudo systemctl disable --now dyndesktop-kiosk)
+cp ~/.kivy/config.ini.bak ~/.kivy/config.ini
+cp ~/.config/niri/config.kdl.bak ~/.config/niri/config.kdl
+```
