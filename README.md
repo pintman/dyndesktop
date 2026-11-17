@@ -151,6 +151,7 @@ Hilfsbefehle (System-Python, auch ohne `.venv`):
 
 ```bash
 python3 -m inbetrieb.geraet          # erkanntes Touch-Gerät, Typ A/B, Provider
+python3 -m inbetrieb.hwinfo [--json] # alle Touch-Geräte: IDs, Treiber, Slots, Achsenbereiche
 python3 -m inbetrieb.kivyconfig zeigen
 python3 -m inbetrieb.niriconfig struts
 ```
