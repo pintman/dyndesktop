@@ -1,4 +1,5 @@
 #!/bin/bash
 
-rsync --avz . pi@bneg.local:/home/pi/proj/dyndesktop
+ssh pi@beneg.local "mkdir -p /home/pi/proj/dyndesktop"
+rsync -avz --exclude=".git" . pi@beneg.local:/home/pi/proj/dyndesktop
 
